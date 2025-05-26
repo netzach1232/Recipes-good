@@ -1,0 +1,203 @@
+/* style.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+/* טופס המתכון */
+form#recipeForm {
+    background-color: white;
+    margin-top: 30px;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+form label {
+    display: block;
+    margin: 14px 0 6px;
+    font-weight: bold;
+    color: #444;
+}
+
+form input[type="text"],
+form textarea,
+form input[type="file"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+#fileLimitMessage {
+    font-size: 0.9rem;
+}
+
+/* קופסת קוד סודי */
+.secret-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 90%;
+    max-width: 360px;
+    text-align: center;
+}
+
+.secret-box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.secret-box button {
+    margin-top: 16px;
+    padding: 8px 16px;
+    background-color: #2196F3;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.secret-box button:hover {
+    background-color: #0b7dda;
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #888;
+}
+
+/* רספונסיביות */
+@media (min-width: 600px) {
+    form#recipeForm {
+        padding: 32px;
+    }
+
+    .secret-box {
+        padding: 32px;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    direction: rtl;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+form#recipeForm {
+    background: white;
+    margin-top: 0;
+    padding: 20px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100vw;
+    /* תופס את כל הרוחב */
+    height: 100vh;
+    /* תופס את כל הגובה */
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+form label {
+    display: block;
+    margin: 16px 0 6px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="file"],
+form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 24px;
+    font-size: 1.1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
