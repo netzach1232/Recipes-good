@@ -1,57 +1,79 @@
+/* style.css */
+
 body {
-    font-family: Arial;
-    background-color: #fff8f0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     direction: rtl;
 }
 
 .login-container {
-    background-color: white;
-    padding: 30px;
+    background: white;
+    padding: 2rem;
     border-radius: 20px;
-    box-shadow: 0 0 10px #ccc;
-    width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+}
+
+.login-container h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
     text-align: center;
 }
 
-input {
-    width: 90%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #aaa;
+.login-container input {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #ff944d;
+.login-container button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #45a049;
 }
 
 #error {
     color: red;
-    margin-top: 10px;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
 }
 
-/* נוסיף מתחת לעיצוב הקיים */
-
+/* מסך ההרשמה */
 .overlay {
     position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.8);
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 999;
 }
 
 .hidden {
@@ -60,89 +82,50 @@ button {
 
 .register-form {
     background: white;
-    padding: 30px;
+    padding: 2rem;
     border-radius: 20px;
-    width: 300px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.register-form h2 {
+    margin-bottom: 1rem;
     text-align: center;
+    font-size: 1.4rem;
 }
 
 .register-form input {
-    width: 90%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #aaa;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
 .register-form button {
-    padding: 10px 20px;
-    background-color: #4caf50;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+    background-color: #2196F3;
     color: white;
     border: none;
-    border-radius: 10px;
-    margin-top: 10px;
+    border-radius: 12px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register-form button:hover {
+    background-color: #0b7dda;
 }
 
 .error-msg {
     color: red;
-    font-size: 12px;
-    margin-bottom: 5px;
-    text-align: right;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
     display: block;
-    height: 14px;
-}
-
-@media (max-width: 600px) {
-    .recipe-button {
-        font-size: 20px;
-        padding: 14px;
-    }
-
-    .recipe-full {
-        padding: 25px;
-        font-size: 18px;
-    }
-
-    .recipe-text div {
-        font-size: 18px;
-    }
-
-    .recipe-img {
-        width: 100px;
-        height: 100px;
-    }
-
-    #searchInput {
-        width: 90%;
-        font-size: 18px;
-        padding: 10px;
-        margin: 10px auto;
-        display: block;
-    }
-
-    .add-recipe-btn {
-        font-size: 18px;
-        padding: 12px 20px;
-    }
-}
-
-.recipe-content {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    /* הוספנו את זה */
-}
-
-@media (max-width: 600px) {
-    .recipe-content {
-        flex-direction: column;
-    }
-}
-
-.recipe-text div {
-    margin-bottom: 10px;
-    font-size: 16px;
-    word-break: break-word;
 }
