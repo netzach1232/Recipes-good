@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>התחברות</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>התחבר לאפליקציית המתכונים</h2>
+        <input type="text" id="username" placeholder="שם משתמש" />
+        <input type="password" id="password" placeholder="סיסמה" />
+        <button onclick="login()">התחבר</button>
+        <button onclick="openRegister()">הירשם</button>
+        <p id="error"></p>
+    </div>
+
+    <!-- מסך ההרשמה -->
+    <div id="registerOverlay" class="overlay hidden">
+        <div class="register-form">
+            <h2>צור חשבון חדש</h2>
+
+            <input type="text" id="firstName" placeholder="שם פרטי" />
+            <small class="error-msg" id="firstNameError"></small>
+
+            <input type="text" id="lastName" placeholder="שם משפחה" />
+            <!-- בלי שורת שגיאה -->
+
+            <input type="email" id="registerEmail" placeholder="אימייל" />
+            <small class="error-msg" id="emailError"></small>
+
+            <input type="password" id="registerPassword" placeholder="סיסמה" />
+            <small class="error-msg" id="passwordError"></small>
+
+            <button onclick="register()">צור חשבון</button>
+            <button onclick="closeRegister()">סגור</button>
+        </div>
+    </div>
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const justLoggedOut = sessionStorage.getItem("justLoggedOut");
+
+            if (justLoggedOut === "true") {
+                sessionStorage.removeItem("justLoggedOut"); // מנקה את הדגל
+                const email = document.getElementById("username");
+                const password = document.getElementById("password");
+
+                if (email) email.value = "";
+                if (password) password.value = "";
+            }
+
+            // לא נוגעים ב־autocomplete
+        });
+    </script>
+
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

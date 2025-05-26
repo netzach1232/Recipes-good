@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <title>דף הבית</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+
+    <header class="top-bar">
+        <a href="https://www.flaticon.com/free-icons/recipe" title="recipe icons" target="_blank">
+            <img src="images/cooking.png" alt="לוגו" class="logo" />
+        </a>
+
+        <div id="topBar">
+            <div id="userInfo">
+                <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="User Icon">
+                <span id="userEmail">שלום</span>
+                <div id="logoutMenu" class="hidden">
+                    <button id="logoutBtn">🚪 יציאה</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <input type="text" id="searchInput" placeholder="חפש מתכון..." onkeydown="handleSearchKey(event)"
+            style="padding: 8px; border-radius: 8px; border: 1px solid #ccc; margin-right: 70px;" />
+
+        <button class="add-recipe-btn" onclick="window.location.href='add-recipe.html'">
+            ➕ הוסף מתכון
+        </button>
+    </header>
+
+    <div id="content"></div>
+
+    <p id="userEmail"></p>
+
+    <!-- כאן יופיעו המתכונים -->
+    <div id="recipeList" style="padding: 30px;"></div>
+
+
+
+
+    <p id="error"></p>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://izpbbjhikbbbyahxzhkg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6cGJiamhpa2JiYnlhaHh6aGtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxOTMxMDUsImV4cCI6MjA2Mzc2OTEwNX0.Gv0WaUlkUAW1qBNEaaXDCWWpwWgbvBTya8KQzFhx08s'; // שים את המפתח המלא שלך פה
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true
+            },
+            global: {
+                headers: {
+                    apikey: SUPABASE_KEY
+                }
+            }
+        });
+
+
+        checkSession();
+
+        // הצגת תפריט יציאה בלחיצה על האזור של המשתמש
+        document.getElementById("userInfo").addEventListener("click", () => {
+            const menu = document.getElementById("logoutMenu");
+            menu.classList.toggle("hidden");
+        });
+
+
+        window.handleSearchKey = function (e) {
+            if (e.key === "Enter") {
+                const query = e.target.value.trim().toLowerCase();
+                const containers = document.querySelectorAll(".recipe-container");
+
+                let found = false;
+
+                containers.forEach((container) => {
+                    const title = container.querySelector(".recipe-button").textContent.trim().toLowerCase();
+                    const match = title.includes(query);
+
+                    // הצג או הסתר את כל הקונטיינר
+                    container.style.display = match ? "block" : "none";
+
+                    // סגור את הפירוט אם קיים
+                    const full = container.querySelector(".recipe-full");
+                    if (full) full.classList.remove("open");
+
+                    if (match) found = true;
+                });
+
+                // הודעה אם אין תוצאות
+                const list = document.getElementById("recipeList");
+                let noResult = document.getElementById("noResultsMessage");
+
+                if (!noResult) {
+                    noResult = document.createElement("p");
+                    noResult.id = "noResultsMessage";
+                    noResult.style.color = "red";
+                    noResult.style.marginTop = "15px";
+                    list.appendChild(noResult);
+                }
+
+                noResult.textContent = found ? "" : "❗ לא נמצאו מתכונים התואמים לחיפוש.";
+            }
+        };
+
+
+
+        let currentPage = 1;
+        const recipesPerPage = 25;
+
+        async function loadRecipes(page = 1) {
+            currentPage = page;
+
+            const { data, error } = await supabase.from("recipes").select("*");
+            if (error) return console.error("❌ שגיאה בקבלת מתכונים:", error);
+
+            const approved = data.filter(recipe => recipe.is_approved === true);
+            const list = document.getElementById("recipeList");
+            list.innerHTML = "";
+
+            if (approved.length === 0) {
+                list.innerHTML = "<p>⚠️ אין עדיין מתכונים מאושרים להצגה.</p>";
+                return;
+            }
+
+            const start = (page - 1) * recipesPerPage;
+            const end = start + recipesPerPage;
+            const currentRecipes = approved.slice(start, end);
+
+            currentRecipes.forEach((recipe) => {
+                const container = document.createElement("div");
+                container.classList.add("recipe-container");
+
+                const preview = document.createElement("div");
+                preview.classList.add("recipe-preview");
+                preview.innerHTML = `<button class="recipe-button">${recipe.title || "ללא כותרת"}</button>`;
+
+                const full = document.createElement("div");
+                full.classList.add("recipe-full");
+                full.innerHTML = `
+            <div class="recipe-content">
+                <div class="recipe-text">
+                    <div><strong>כותרת:</strong> <div class="recipe-title">${recipe.title || "ללא כותרת"}</div></div>
+                    <div><strong>תיאור:</strong> <div class="recipe-description">${recipe.description || "אין תיאור למתכון"}</div></div>
+                </div>
+                <div class="recipe-images">
+                    ${recipe.image1_url ? `<img src="${recipe.image1_url}" class="recipe-img">` : ""}
+                    ${recipe.image2_url ? `<img src="${recipe.image2_url}" class="recipe-img">` : ""}
+                    ${recipe.image3_url ? `<img src="${recipe.image3_url}" class="recipe-img">` : ""}
+                </div>
+            </div>
+        `;
+
+                container.appendChild(preview);
+                container.appendChild(full);
+                container.addEventListener("click", () => full.classList.toggle("open"));
+                list.appendChild(container);
+            });
+
+            renderPagination(approved.length);
+        }
+
+
+        function renderPagination(totalRecipes) {
+            const totalPages = Math.ceil(totalRecipes / recipesPerPage);
+            const list = document.getElementById("recipeList");
+
+            const pagination = document.createElement("div");
+            pagination.className = "pagination";
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+                btn.className = i === currentPage ? "active" : "";
+                btn.onclick = () => loadRecipes(i);
+                pagination.appendChild(btn);
+            }
+
+            list.appendChild(pagination);
+        }
+
+
+        const { data, error } = await supabase
+            .from("recipes")
+            .select("id, title, is_approved");
+
+        console.log("📋 כל המתכונים בטבלה:", data);
+
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) {
+                alert("החיבור שלך פג תוקף או שאינך מחובר");
+                window.location.href = "index.html";
+                return;
+            }
+
+            const fullEmail = session.user.email;
+            const shortEmail = fullEmail.length > 8
+                ? fullEmail.substring(0, 5) + "..."
+                : fullEmail;
+
+            document.getElementById("userEmail").textContent = `שלום, ${shortEmail}`;
+            console.log("משתמש מחובר:", session.user.email);
+
+            // ⬅️ קריאה אחרי שהפונקציה קיימת
+            loadRecipes();
+        }
+
+        checkSession();
+
+        // בלחיצה על כפתור יציאה – נבצע signOut
+        document.getElementById("logoutBtn").addEventListener("click", async () => {
+            await supabase.auth.signOut();
+            window.location.href = "index.html"; // חזרה לעמוד הראשי
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", async () => {
+            await supabase.auth.signOut();
+            localStorage.clear(); // מוחק כל מה שנשמר
+            sessionStorage.clear(); // אם השתמשת גם בזה
+            window.location.href = "index.html";
+        });
+
+    </script>
+
+</body>
+
+</html>

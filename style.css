@@ -1,0 +1,148 @@
+body {
+    font-family: Arial;
+    background-color: #fff8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    direction: rtl;
+}
+
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ccc;
+    width: 300px;
+    text-align: center;
+}
+
+input {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #ff944d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* נוסיף מתחת לעיצוב הקיים */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+.register-form {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.register-form input {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
+.register-form button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-align: right;
+    display: block;
+    height: 14px;
+}
+
+@media (max-width: 600px) {
+    .recipe-button {
+        font-size: 20px;
+        padding: 14px;
+    }
+
+    .recipe-full {
+        padding: 25px;
+        font-size: 18px;
+    }
+
+    .recipe-text div {
+        font-size: 18px;
+    }
+
+    .recipe-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    #searchInput {
+        width: 90%;
+        font-size: 18px;
+        padding: 10px;
+        margin: 10px auto;
+        display: block;
+    }
+
+    .add-recipe-btn {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+}
+
+.recipe-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* הוספנו את זה */
+}
+
+@media (max-width: 600px) {
+    .recipe-content {
+        flex-direction: column;
+    }
+}
+
+.recipe-text div {
+    margin-bottom: 10px;
+    font-size: 16px;
+    word-break: break-word;
+}
