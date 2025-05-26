@@ -5,16 +5,24 @@
     <meta charset="UTF-8">
     <title>דף הבית</title>
     <link rel="stylesheet" href="style2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-
     <header class="top-bar">
-        <a href="https://www.flaticon.com/free-icons/recipe" title="recipe icons" target="_blank">
+        <div class="logo-right">
             <img src="images/cooking.png" alt="לוגו" class="logo" />
-        </a>
+        </div>
 
-        <div id="topBar">
+        <div class="add-btn">
+            <button class="add-recipe-btn" onclick="window.location.href='add-recipe.html'">➕ הוסף מתכון</button>
+        </div>
+
+        <div class="search-center">
+            <input type="text" id="searchInput" placeholder="חפש מתכון..." onkeydown="handleSearchKey(event)">
+        </div>
+
+        <div class="user-left">
             <div id="userInfo">
                 <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="User Icon">
                 <span id="userEmail">שלום</span>
@@ -23,16 +31,9 @@
                 </div>
             </div>
         </div>
-
-
-
-        <input type="text" id="searchInput" placeholder="חפש מתכון..." onkeydown="handleSearchKey(event)"
-            style="padding: 8px; border-radius: 8px; border: 1px solid #ccc; margin-right: 70px;" />
-
-        <button class="add-recipe-btn" onclick="window.location.href='add-recipe.html'">
-            ➕ הוסף מתכון
-        </button>
     </header>
+
+
 
     <div id="content"></div>
 
@@ -40,6 +41,7 @@
 
     <!-- כאן יופיעו המתכונים -->
     <div id="recipeList" style="padding: 30px;"></div>
+    <div class="pagination" id="paginationContainer"></div>
 
 
 
@@ -114,7 +116,7 @@
 
 
         let currentPage = 1;
-        const recipesPerPage = 25;
+        const recipesPerPage = 10;
 
         async function loadRecipes(page = 1) {
             currentPage = page;
@@ -209,7 +211,7 @@
                 ? fullEmail.substring(0, 5) + "..."
                 : fullEmail;
 
-            document.getElementById("userEmail").textContent = `שלום, ${shortEmail}`;
+            document.getElementById("userEmail").innerHTML = `שלום, <span dir="ltr">${shortEmail}</span>`;
             console.log("משתמש מחובר:", session.user.email);
 
             // ⬅️ קריאה אחרי שהפונקציה קיימת
