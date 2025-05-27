@@ -23,7 +23,7 @@ window.resetPassword = async function () {
 
 async function login() {
     const email = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const password = document.getElementById("loginPassword").value;
 
     if (!email || !password) {
         document.getElementById("error").textContent = "יש למלא את כל השדות.";
@@ -72,12 +72,18 @@ async function register() {
     const lname = document.getElementById("lastName").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
     clearErrors();
     let hasError = false;
 
     if (!fname) {
         document.getElementById("firstNameError").textContent = "יש להזין שם פרטי";
+        hasError = true;
+    }
+
+    if (!lname) {
+        document.getElementById("lastNameError").textContent = "יש להזין שם משפחה";
         hasError = true;
     }
 
@@ -97,6 +103,11 @@ async function register() {
         hasError = true;
     }
 
+    if (password !== confirmPassword) {
+        document.getElementById("confirmError").textContent = "הסיסמאות לא תואמות";
+        hasError = true;
+    }
+
     if (hasError) return;
 
     const { data, error } = await supabase.auth.signUp({
@@ -109,8 +120,10 @@ async function register() {
         return;
     }
 
+    localStorage.setItem("registeredEmail", email);
     window.location.href = "success.html";
 }
+
 
 
 
