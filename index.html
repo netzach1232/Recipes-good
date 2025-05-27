@@ -9,16 +9,31 @@
 </head>
 
 <body>
+    <!-- התחברות -->
     <div class="login-container">
         <h2>התחבר לאפליקציית המתכונים</h2>
+
         <input type="email" id="username" placeholder="אימייל" />
-        <input type="password" id="password" placeholder="סיסמה" />
+
+        <div class="password-container">
+            <input type="password" id="loginPassword" placeholder="סיסמה" />
+            <span class="toggle" onclick="togglePassword('loginPassword', this)">
+                <!-- עין סגורה (ברירת מחדל) -->
+                <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.93 21.93 0 014.24-5.53M6.1 6.1
+        A10.94 10.94 0 0112 5c7 0 11 7 11 7a21.93 21.93 0 01-5.23 5.92M1 1l22 22" />
+                </svg>
+            </span>
+        </div>
+
         <button onclick="login()">התחבר</button>
         <button onclick="openRegister()">הירשם</button>
+        <button onclick="resetPassword()">שכחתי סיסמה</button>
         <p id="error"></p>
     </div>
 
-    <!-- מסך ההרשמה -->
+    <!-- הרשמה -->
     <div id="registerOverlay" class="overlay hidden">
         <div class="register-form">
             <h2>צור חשבון חדש</h2>
@@ -27,13 +42,28 @@
             <small class="error-msg" id="firstNameError"></small>
 
             <input type="text" id="lastName" placeholder="שם משפחה" />
-            <!-- בלי שורת שגיאה -->
 
             <input type="email" id="registerEmail" placeholder="אימייל" />
             <small class="error-msg" id="emailError"></small>
 
-            <input type="password" id="registerPassword" placeholder="סיסמה" />
+            <div class="password-container">
+                <input type="password" id="registerPassword" placeholder="סיסמה" />
+                <span class="toggle2" onclick="togglePassword('registerPassword', this)">
+                </span>
+            </div>
             <small class="error-msg" id="passwordError"></small>
+
+            <div class="password-container">
+                <input type="password" id="confirmPassword" placeholder="אימות סיסמה" />
+                <span class="toggle2" onclick="togglePassword('confirmPassword', this)">
+                    <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.93 21.93 0 014.24-5.53M6.1 6.1
+          A10.94 10.94 0 0112 5c7 0 11 7 11 7a21.93 21.93 0 01-5.23 5.92M1 1l22 22" />
+                    </svg>
+                </span>
+            </div>
+            <small class="error-msg" id="confirmError"></small>
 
             <button onclick="register()">צור חשבון</button>
             <button onclick="closeRegister()">סגור</button>
@@ -56,8 +86,82 @@
 
             // לא נוגעים ב־autocomplete
         });
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
+        function register() {
+            const password = document.getElementById("registerPassword").value;
+            const confirm = document.getElementById("confirmPassword").value;
+            const confirmError = document.getElementById("confirmError");
+
+            if (password !== confirm) {
+                confirmError.textContent = "הסיסמאות אינן תואמות!";
+                return;
+            } else {
+                confirmError.textContent = "";
+            }
+
+            // המשך רישום...
+            alert("נרשמת בהצלחה!");
+        }
+
+        function login() {
+            const email = document.getElementById("username").value;
+            const password = document.getElementById("loginPassword").value;
+            // המשך התחברות...
+            alert("התחברת בהצלחה!");
+        }
+
+
+        function togglePassword(id, el) {
+            const input = document.getElementById(id);
+            const isVisible = input.type === "text";
+            input.type = isVisible ? "password" : "text";
+
+            el.innerHTML = isVisible
+                // עין סגורה (הסתר סיסמה)
+                ? `<svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+         <path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.93 21.93 0 014.24-5.53M6.1 6.1
+         A10.94 10.94 0 0112 5c7 0 11 7 11 7a21.93 21.93 0 01-5.23 5.92M1 1l22 22" />
+       </svg>`
+                // עין פתוחה (הצג סיסמה)
+                : `<svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+         <circle cx="12" cy="12" r="3" />
+       </svg>`;
+        }
+
     </script>
 
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://izpbbjhikbbbyahxzhkg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6cGJiamhpa2JiYnlhaHh6aGtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxOTMxMDUsImV4cCI6MjA2Mzc2OTEwNX0.Gv0WaUlkUAW1qBNEaaXDCWWpwWgbvBTya8KQzFhx08s'; // המפתח שלך (כבר נמצא בקובץ script.js)
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        window.resetPassword = async function () {
+            const email = prompt("הזן את כתובת המייל שלך לאיפוס סיסמה:");
+
+            if (!email) return;
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://netzach-recipes.vercel.app/update-password.html' // דף אליו יופנה המשתמש לאחר לחיצה על הקישור במייל
+            });
+
+            if (error) {
+                alert("אירעה שגיאה: " + error.message);
+            } else {
+                alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
+            }
+        };
+    </script>
 
     <script type="module" src="script.js"></script>
 </body>
