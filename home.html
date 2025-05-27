@@ -37,7 +37,6 @@
 
     <div id="content"></div>
 
-    <p id="userEmail"></p>
 
     <!-- כאן יופיעו המתכונים -->
     <div id="recipeList" style="padding: 30px;"></div>
@@ -76,41 +75,57 @@
         });
 
 
-        window.handleSearchKey = function (e) {
-            if (e.key === "Enter") {
-                const query = e.target.value.trim().toLowerCase();
-                const containers = document.querySelectorAll(".recipe-container");
+        window.window.handleSearchKey = async function (e) {
+            if (e.key !== "Enter") return;
 
-                let found = false;
+            const query = e.target.value.trim().toLowerCase();
+            const list = document.getElementById("recipeList");
+            list.innerHTML = "";
 
-                containers.forEach((container) => {
-                    const title = container.querySelector(".recipe-button").textContent.trim().toLowerCase();
-                    const match = title.includes(query);
+            const { data, error } = await supabase.from("recipes").select("*");
 
-                    // הצג או הסתר את כל הקונטיינר
-                    container.style.display = match ? "block" : "none";
-
-                    // סגור את הפירוט אם קיים
-                    const full = container.querySelector(".recipe-full");
-                    if (full) full.classList.remove("open");
-
-                    if (match) found = true;
-                });
-
-                // הודעה אם אין תוצאות
-                const list = document.getElementById("recipeList");
-                let noResult = document.getElementById("noResultsMessage");
-
-                if (!noResult) {
-                    noResult = document.createElement("p");
-                    noResult.id = "noResultsMessage";
-                    noResult.style.color = "red";
-                    noResult.style.marginTop = "15px";
-                    list.appendChild(noResult);
-                }
-
-                noResult.textContent = found ? "" : "❗ לא נמצאו מתכונים התואמים לחיפוש.";
+            if (error) {
+                console.error("שגיאה בקבלת נתונים מהשרת:", error);
+                return;
             }
+
+            const approved = data.filter(r => r.is_approved === true);
+            const results = approved.filter(r => (r.title || "").toLowerCase().includes(query));
+
+            if (results.length === 0) {
+                list.innerHTML = `<p id="noResultsMessage" style="color:red; margin-top:15px;">❗ לא נמצאו מתכונים התואמים לחיפוש.</p>`;
+                return;
+            }
+
+            results.forEach((recipe) => {
+                const container = document.createElement("div");
+                container.classList.add("recipe-container");
+
+                const preview = document.createElement("div");
+                preview.classList.add("recipe-preview");
+                preview.innerHTML = `<button class="recipe-button">${recipe.title || "ללא כותרת"}</button>`;
+
+                const full = document.createElement("div");
+                full.classList.add("recipe-full");
+                full.innerHTML = `
+      <div class="recipe-content">
+        <div class="recipe-text">
+          <div><strong>כותרת:</strong> <div class="recipe-title">${recipe.title || "ללא כותרת"}</div></div>
+          <div><strong>תיאור:</strong> <div class="recipe-description">${recipe.description || "אין תיאור למתכון"}</div></div>
+        </div>
+        <div class="recipe-images">
+          ${recipe.image1_url ? `<img src="${recipe.image1_url}" class="recipe-img">` : ""}
+          ${recipe.image2_url ? `<img src="${recipe.image2_url}" class="recipe-img">` : ""}
+          ${recipe.image3_url ? `<img src="${recipe.image3_url}" class="recipe-img">` : ""}
+        </div>
+      </div>
+    `;
+
+                container.appendChild(preview);
+                container.appendChild(full);
+                container.addEventListener("click", () => full.classList.toggle("open"));
+                list.appendChild(container);
+            });
         };
 
 
@@ -219,12 +234,6 @@
         }
 
         checkSession();
-
-        // בלחיצה על כפתור יציאה – נבצע signOut
-        document.getElementById("logoutBtn").addEventListener("click", async () => {
-            await supabase.auth.signOut();
-            window.location.href = "index.html"; // חזרה לעמוד הראשי
-        });
 
         document.getElementById("logoutBtn").addEventListener("click", async () => {
             await supabase.auth.signOut();
