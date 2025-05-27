@@ -136,23 +136,6 @@
        </svg>`;
         }
 
-        // בתוך script.js
-        window.resetPassword = async function () {
-            const email = prompt("הזן את כתובת המייל שלך לאיפוס סיסמה:");
-            if (!email) return;
-
-            const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html'
-            });
-
-            if (error) {
-                alert("אירעה שגיאה: " + error.message);
-            } else {
-                alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
-            }
-        };
-
-
     </script>
 
     <script type="module" src="script.js"></script>
