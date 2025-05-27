@@ -129,3 +129,46 @@ body {
     margin-bottom: 0.8rem;
     display: block;
 }
+
+
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+    /* שיהיה מקום לעין */
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 90%;
+    /* ✅ תמיד בקצה הימני של השדה */
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle2 {
+    position: absolute;
+    top: 50%;
+    right: 90%;
+    /* ✅ תמיד בקצה הימני של השדה */
+    transform: translateY(-60%);
+    cursor: pointer;
+}
+
+.eye-icon {
+    width: 22px;
+    height: 22px;
+    color: #555;
+}
+
+
+@media screen and (max-width: 480px) {
+    .eye-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
