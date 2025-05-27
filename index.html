@@ -49,6 +49,11 @@
             <div class="password-container">
                 <input type="password" id="registerPassword" placeholder="סיסמה" />
                 <span class="toggle2" onclick="togglePassword('registerPassword', this)">
+                    <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.93 21.93 0 014.24-5.53M6.1 6.1
+          A10.94 10.94 0 0112 5c7 0 11 7 11 7a21.93 21.93 0 01-5.23 5.92M1 1l22 22" />
+                    </svg>
                 </span>
             </div>
             <small class="error-msg" id="passwordError"></small>
@@ -86,34 +91,6 @@
 
             // לא נוגעים ב־autocomplete
         });
-
-        function togglePassword(id) {
-            const input = document.getElementById(id);
-            input.type = input.type === "password" ? "text" : "password";
-        }
-
-        function register() {
-            const password = document.getElementById("registerPassword").value;
-            const confirm = document.getElementById("confirmPassword").value;
-            const confirmError = document.getElementById("confirmError");
-
-            if (password !== confirm) {
-                confirmError.textContent = "הסיסמאות אינן תואמות!";
-                return;
-            } else {
-                confirmError.textContent = "";
-            }
-
-            // המשך רישום...
-            alert("נרשמת בהצלחה!");
-        }
-
-        function login() {
-            const email = document.getElementById("username").value;
-            const password = document.getElementById("loginPassword").value;
-            // המשך התחברות...
-            alert("התחברת בהצלחה!");
-        }
 
 
         function togglePassword(id, el) {
