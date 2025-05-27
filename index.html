@@ -138,6 +138,31 @@
 
     </script>
 
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://izpbbjhikbbbyahxzhkg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6cGJiamhpa2JiYnlhaHh6aGtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxOTMxMDUsImV4cCI6MjA2Mzc2OTEwNX0.Gv0WaUlkUAW1qBNEaaXDCWWpwWgbvBTya8KQzFhx08s'; // המפתח שלך (כבר נמצא בקובץ script.js)
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        window.resetPassword = async function () {
+            const email = prompt("הזן את כתובת המייל שלך לאיפוס סיסמה:");
+
+            if (!email) return;
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html' // דף אליו יופנה המשתמש לאחר לחיצה על הקישור במייל
+            });
+
+            if (error) {
+                alert("אירעה שגיאה: " + error.message);
+            } else {
+                alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
+            }
+        };
+    </script>
+
     <script type="module" src="script.js"></script>
 </body>
 
