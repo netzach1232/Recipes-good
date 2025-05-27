@@ -1,20 +1,25 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 const SUPABASE_URL = 'https://izpbbjhikbbbyahxzhkg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6cGJiamhpa2JiYnlhaHh6aGtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxOTMxMDUsImV4cCI6MjA2Mzc2OTEwNX0.Gv0WaUlkUAW1qBNEaaXDCWWpwWgbvBTya8KQzFhx08s'; // שים את המפתח המלא שלך פה
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6cGJiamhpa2JiYnlhaHh6aGtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxOTMxMDUsImV4cCI6MjA2Mzc2OTEwNX0.Gv0WaUlkUAW1qBNEaaXDCWWpwWgbvBTya8KQzFhx08s'; // (המפתח המלא שלך)
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
-        persistSession: true,
-        autoRefreshToken: true
-    },
-    global: {
-        headers: {
-            apikey: SUPABASE_KEY
-        }
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// פונקציית איפוס סיסמה
+window.resetPassword = async function () {
+    const email = prompt("הזן את כתובת המייל שלך לאיפוס סיסמה:");
+    if (!email) return;
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html'
+    });
+
+    if (error) {
+        alert("אירעה שגיאה: " + error.message);
+    } else {
+        alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
     }
-});
-
+};
 
 async function login() {
     const email = document.getElementById("username").value;
