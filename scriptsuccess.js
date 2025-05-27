@@ -1,7 +1,7 @@
 const email = localStorage.getItem("registeredEmail");
 
 if (email) {
-    document.getElementById("userEmail").textContent = email;
+    document.getElementById("userEmailSuccess").textContent = email;
 
     const domain = email.split("@")[1].toLowerCase();
     let mailLink = "";
