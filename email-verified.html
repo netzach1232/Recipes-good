@@ -31,20 +31,21 @@
     <p>אתה מועבר לאתר...</p>
 
     <script>
-        const hash = window.location.hash;
-        const params = new URLSearchParams(hash.slice(1));
-        const token = params.get("access_token");
+        setTimeout(() => {
+            const hash = window.location.hash;
+            const params = new URLSearchParams(hash.slice(1));
+            const token = params.get("access_token");
 
-        if (token) {
-            localStorage.setItem("access_token", token);
-            setTimeout(() => {
-                window.location.href = "home.html";
-            }, 2000); // מחכה 2 שניות ואז מפנה
-        } else {
-            document.body.innerHTML += "<p>⚠️ שגיאה באימות. נסה להתחבר ידנית.</p>";
-        }
+            if (token) {
+                localStorage.setItem("access_token", token);
+                setTimeout(() => {
+                    window.location.href = "home.html";
+                }, 2000);
+            } else {
+                document.body.innerHTML += "<p>⚠️ לא התקבל access_token. התחבר שוב ידנית.</p>";
+            }
+        }, 100);
     </script>
-
 
 </body>
 
