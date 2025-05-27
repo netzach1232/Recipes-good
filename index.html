@@ -56,18 +56,17 @@
 
             // לא נוגעים ב־autocomplete
         });
-
+        // קורא access_token מה-URL
         const hash = window.location.hash;
         const params = new URLSearchParams(hash.slice(1));
         const token = params.get("access_token");
 
         if (token) {
+            // שמירה מקומית אם אתה צריך
             localStorage.setItem("access_token", token);
-            setTimeout(() => {
-                window.location.href = "https://netzach1232.github.io/Recipes-good/home.html";
-            }, 2000);
+            // אפשר להפעיל redirect או הצגת הודעה
+            console.log("נכנס דרך אישור מייל עם טוקן:", token);
         }
-
     </script>
 
 
