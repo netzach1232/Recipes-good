@@ -5,13 +5,17 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// פונקציית איפוס סיסמה
-window.resetPassword = async function () {
-    const email = prompt("הזן את כתובת המייל שלך לאיפוס סיסמה:");
-    if (!email) return;
+// פונקציה שמבצעת שני דברים במקביל
+async function resetPasswordAndOpenMail() {
+    const email = document.getElementById("username").value.trim(); // לוקח את המייל מהשדה שמזין
+    if (!email) {
+        alert("יש להזין כתובת מייל.");
+        return;
+    }
 
+    // שליחה ל-Supabase לאיפוס הסיסמה
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html'
+        redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html' // הפניה לדף איפוס סיסמה
     });
 
     if (error) {
@@ -19,7 +23,13 @@ window.resetPassword = async function () {
     } else {
         alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
     }
-};
+
+    // פתיחת אפליקציית המייל (mailto)
+    const mailLink = `mailto:${email}`;
+    window.location.href = mailLink;  // שינוי ל-`window.location.href`
+}
+
+
 
 async function login() {
     const email = document.getElementById("username").value;
