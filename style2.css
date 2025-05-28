@@ -9,7 +9,6 @@ body {
 }
 
 
-
 /* מידע על המשתמש */
 #userInfo {
     display: flex;
@@ -52,12 +51,14 @@ body {
 }
 
 #logoutMenu button {
-    background-color: red;
-    color: white;
-    padding: 6px 12px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(231, 3, 3);
+    padding: 3px 6px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: bolder;
+    font-size: 25px;
 }
 
 .hidden {
@@ -66,13 +67,14 @@ body {
 
 /* כפתור הוספת מתכון */
 .add-recipe-btn {
-    background-color: #2196F3;
-    color: white;
+    background-color: #ffffff91;
+    color: rgb(23, 81, 206);
     padding: 8px 16px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
     font-size: 0.95rem;
+    font-weight: bolder;
     margin-top: 8px;
 }
 
@@ -214,7 +216,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    background-color: #4CAF50;
+    background-color: #d8ae5b;
     padding: 10px 16px;
     color: white;
     position: sticky;
