@@ -113,6 +113,10 @@ async function register() {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+            createSession: false,
+            emailRedirectTo: "https://netzach1232.github.io/Recipes-good/index.html"
+        }
     });
 
     if (error) {
@@ -121,6 +125,10 @@ async function register() {
     }
 
     localStorage.setItem("registeredEmail", email);
+
+    // 🔴 קריטי – מונע התחברות מיידית לפני אישור אימייל
+    await supabase.auth.signOut();
+
     window.location.href = "success.html";
 }
 
