@@ -5,31 +5,40 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// פונקציה שמבצעת שני דברים במקביל
-async function resetPasswordAndOpenMail() {
-    const email = document.getElementById("username").value.trim(); // לוקח את המייל מהשדה שמזין
+window.resetPasswordAndOpenMail = async function () {
+    const email = document.getElementById("username").value.trim();
+    const errorDiv = document.getElementById("error");
+
     if (!email) {
-        alert("יש להזין כתובת מייל.");
+        errorDiv.textContent = "יש להזין כתובת מייל.";
         return;
     }
 
-    // שליחה ל-Supabase לאיפוס הסיסמה
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html' // הפניה לדף איפוס סיסמה
+        redirectTo: 'https://netzach1232.github.io/Recipes-good/update-password.html'
     });
 
     if (error) {
-        alert("אירעה שגיאה: " + error.message);
-    } else {
-        alert("נשלח אליך מייל עם קישור לאיפוס סיסמה.");
+        errorDiv.textContent = "אירעה שגיאה: " + error.message;
+        return;
     }
 
-    // פתיחת אפליקציית המייל (mailto)
-    const mailLink = `mailto:${email}`;
-    window.location.href = mailLink;  // שינוי ל-`window.location.href`
-}
+    // זיהוי הדומיין של המייל ופתיחה ישירה של אתר הדוא"ל
+    const domain = email.split("@")[1].toLowerCase();
+    let mailLink = "";
 
+    if (domain.includes("gmail")) {
+        mailLink = "https://mail.google.com/";
+    } else if (domain.includes("outlook") || domain.includes("hotmail") || domain.includes("live")) {
+        mailLink = "https://outlook.live.com/";
+    } else if (domain.includes("yahoo")) {
+        mailLink = "https://mail.yahoo.com/";
+    } else {
+        mailLink = "https://" + domain;
+    }
 
+    window.open(mailLink, "_blank");
+};
 
 async function login() {
     const email = document.getElementById("username").value;
@@ -141,6 +150,36 @@ async function register() {
 
     window.location.href = "success.html";
 }
+
+// התנהגות אנטר בדף כניסה והרשמה
+window.addEventListener("keydown", function (e) {
+    // אם לוחצים אנטר
+    if (e.key === "Enter") {
+        const registerOverlay = document.getElementById("registerOverlay");
+        const isRegisterOpen = !registerOverlay.classList.contains("hidden");
+
+        if (!isRegisterOpen) {
+            // במצב כניסה
+            e.preventDefault(); // למנוע שליחת טופס דיפולטיבית
+            login(); // מפעיל התחברות
+        } else {
+            // במצב הרשמה
+            const focusables = Array.from(registerOverlay.querySelectorAll("input"));
+            const current = document.activeElement;
+            const currentIndex = focusables.indexOf(current);
+
+            if (currentIndex > -1 && currentIndex < focusables.length - 1) {
+                // עובר לשדה הבא
+                e.preventDefault();
+                focusables[currentIndex + 1].focus();
+            } else {
+                // בשדה האחרון — מפעיל הרשמה
+                e.preventDefault();
+                register();
+            }
+        }
+    }
+});
 
 
 
