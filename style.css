@@ -42,17 +42,18 @@ body {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 0.5rem;
-    background-color: #c5911f;
-    color: white;
+    background-color: #cae9b65b;
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 12px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s ease;
+    font-weight: bolder;
+    font-size: large;
 }
 
 .login-container button:hover {
-    background-color: #45a049;
+    background-color: #babd2f63;
 }
 
 #error {
