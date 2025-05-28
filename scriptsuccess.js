@@ -2,8 +2,18 @@ const email = localStorage.getItem("registeredEmail");
 
 if (email) {
     document.getElementById("userEmailSuccess").textContent = email;
+    localStorage.removeItem("registeredEmail");
+}
+
+function openMail() {
+    const email = document.getElementById("userEmailSuccess").textContent.trim();
+    if (!email.includes("@")) {
+        alert("לא ניתן לזהות את כתובת הדוא\"ל.");
+        return;
+    }
 
     const domain = email.split("@")[1].toLowerCase();
+
     let mailLink = "";
 
     if (domain.includes("gmail")) {
@@ -16,11 +26,5 @@ if (email) {
         mailLink = "https://" + domain;
     }
 
-    const button = document.createElement("button");
-    button.textContent = "פתח את תיבת הדוא\"ל";
-    button.onclick = () => window.open(mailLink, "_blank");
-
-    document.getElementById("emailButtonContainer").appendChild(button);
-
-    localStorage.removeItem("registeredEmail"); // מנקה את הזיכרון
+    window.open(mailLink, "_blank");
 }
