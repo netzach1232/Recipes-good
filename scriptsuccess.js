@@ -5,6 +5,7 @@ if (email) {
     localStorage.removeItem("registeredEmail");
 }
 
+
 function openMail() {
     const email = document.getElementById("userEmailSuccess").textContent.trim();
     if (!email.includes("@")) {
